@@ -8,14 +8,14 @@
 #include "pipeline.h"
 #include "camera.h"
 
-#define WINDOW_WIDTH 1024
+#define WINDOW_WIDTH  1024
 #define WINDOW_HEIGHT 768
 
 GLuint VBO;
 GLuint IBO;
 GLuint gWVPLocation;
 
-Camera GameCamera;
+Camera* pGameCamera = NULL;
 
 static const char* pVS = "                                                          \n\
 #version 330                                                                        \n\
@@ -46,6 +46,8 @@ void main()                                                                     
 
 static void RenderSceneCB()
 {
+    pGameCamera->OnRender();
+
     glClear(GL_COLOR_BUFFER_BIT);
 
     static float Scale = 0.0f;
@@ -55,7 +57,7 @@ static void RenderSceneCB()
     Pipeline p;
     p.Rotate(0.0f, Scale, 0.0f);
     p.WorldPos(0.0f, 0.0f, 3.0f);
-    p.SetCamera(GameCamera.GetPos(), GameCamera.GetTarget(), GameCamera.GetUp());
+    p.SetCamera(pGameCamera->GetPos(), pGameCamera->GetTarget(), pGameCamera->GetUp());
     p.SetPerspectiveProj(60.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1.0f, 100.0f);
 
     glUniformMatrix4fv(gWVPLocation, 1, GL_TRUE, (const GLfloat*)p.GetTrans());
@@ -75,15 +77,30 @@ static void RenderSceneCB()
 
 static void SpecialKeyboardCB(int Key, int x, int y)
 {
-    GameCamera.OnKeyboard(Key);
+    pGameCamera->OnKeyboard(Key);
 }
 
+
+static void KeyboardCB(unsigned char Key, int x, int y)
+{
+    switch (Key) {
+    case 'q':
+        exit(0);
+    }
+}
+
+static void PassiveMouseCB(int x, int y)
+{
+    pGameCamera->OnMouse(x, y);
+}
 
 static void InitializeGlutCallbacks()
 {
     glutDisplayFunc(RenderSceneCB);
     glutIdleFunc(RenderSceneCB);
     glutSpecialFunc(SpecialKeyboardCB);
+    glutPassiveMotionFunc(PassiveMouseCB);
+    glutKeyboardFunc(KeyboardCB);
 }
 
 static void CreateVertexBuffer()
@@ -181,9 +198,13 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Tutorial 14");
+    glutCreateWindow("Tutorial 15");
+    glutGameModeString("1280x1024@32");
+    glutEnterGameMode();
 
     InitializeGlutCallbacks();
+
+    pGameCamera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // Must be done after glut is initialized!
     GLenum res = glewInit();
