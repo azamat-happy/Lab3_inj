@@ -153,15 +153,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="glut_backend.cpp" />
     <ClCompile Include="Lab3_inj.cpp" />
+    <ClCompile Include="lighting_technique.cpp" />
     <ClCompile Include="math_3d.cpp" />
     <ClCompile Include="Pipeline.cpp" />
+    <ClCompile Include="technique.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="callbacks.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="glut_backend.h" />
+    <ClInclude Include="lighting_technique.h" />
     <ClInclude Include="math_3d.h" />
     <ClInclude Include="Pipeline.h" />
+    <ClInclude Include="technique.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,7 +5,6 @@
 
 #include <GL/glew.h>
 #include <Magick++.h>
-//#pragma comment(lib, "Magick++.h")
 
 class Texture
 {
@@ -22,8 +21,7 @@ private:
     GLuint m_textureObj;
     Magick::Image* m_pImage;
     Magick::Blob m_blob;
-
 };
 
 
-#endif	/* TEXTURE_H */#pragma once
+#endif	/* TEXTURE_H */
