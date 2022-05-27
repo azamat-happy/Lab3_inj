@@ -117,6 +117,17 @@ public:
     virtual void SpecialKeyboardCB(int Key, int x, int y)
     {
         m_pGameCamera->OnKeyboard(Key);
+        switch (Key) {
+        case GLUT_KEY_F1:
+            glutLeaveMainLoop();
+            break;
+        case GLUT_KEY_F2:
+            m_directionalLight.AmbientIntensity += 0.05f;
+            break;
+        case GLUT_KEY_F3:
+            m_directionalLight.AmbientIntensity -= 0.05f;
+            break;
+        }
     }
 
 

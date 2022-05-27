@@ -33,6 +33,7 @@ static void InitCallbacks() {
     glutSpecialFunc(SpecialKeyboardCB);
     glutPassiveMotionFunc(PassiveMouseCB);
     glutKeyboardFunc(KeyboardCB);
+    //glutSpecialFunc(KeyboardCB);
 }
 
 void GLUTBackendInit(int argc, char** argv) {
